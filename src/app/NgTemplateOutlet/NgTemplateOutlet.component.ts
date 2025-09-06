@@ -1,17 +1,7 @@
 import { Component, TemplateRef, viewChild, ViewRef, ViewContainerRef, OnInit, signal, Injector, Directive, inject } from '@angular/core';
 import { CommonModule } from '@angular/common'; // ante se hacia
 
-// componente hijo
 
-@Component({
-  selector: 'app-hijo',
-  template: `
-  <h1>Componente con fracmento</h1>
-  `
-})
-export class hijoComponen{
-
-}
 
 @Component({
   selector: 'app-ng-template-outlet',

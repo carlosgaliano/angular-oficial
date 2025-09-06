@@ -10,6 +10,7 @@ import { PipeComponent } from './pipe/pipe.component';
 import { NgContent2Component } from './ng-content2/ng-content2.component';
 import { NgTemplate2Component } from './ng-template/ng-template.component';
 import { NgTemplateOutletComponent } from './NgTemplateOutlet/NgTemplateOutlet.component';
+import { ViewContainerRefComponent } from './ViewContainerRef/ViewContainerRef.component';
 
 export const routes: Routes = [
   {
@@ -45,8 +46,12 @@ export const routes: Routes = [
     component: NgTemplate2Component
   },
   {
-    path: "",
+    path: "NgTemplateOutlet",
     component: NgTemplateOutletComponent
+  },
+  {
+    path: "",
+    component: ViewContainerRefComponent
   },
   {
     path: "UsuariosComponent",

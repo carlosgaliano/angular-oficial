@@ -1,7 +1,37 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, Directive, inject, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Component, computed, Directive, effect, ElementRef, inject, input, OnInit, TemplateRef, viewChild, ViewChildren, ViewContainerRef } from '@angular/core';
 
 // TODO Falta por hacer
+
+@Directive({
+  selector: '[tema]'
+})
+export class TemaDirectiva {
+  tema = input<'luz' | 'noche'>();
+   constructor(private el: ElementRef) {
+    // Efecto reactivo que se ejecuta cuando cambia el input
+    effect(() => {
+      const value = this.tema();
+      this.el.nativeElement.classList.remove('luz', 'nohe');
+      this.el.nativeElement.classList.add(value);
+    });
+  }
+}
+//////
+
+@Component({
+  selector: 'Tuno',
+  template: `<h3>componente uno</h3>`
+})
+export class UnoComponent{}
+
+@Component({
+  selector: 'Tdos',
+  template: `<h3>componente dos</h3>`
+})
+export class DosComponent{}
+
+///////
 
 @Directive({
   selector: '[myDirectiva]'
@@ -13,36 +43,35 @@ export class MiDirectiva implements OnInit {
   ngOnInit() {
     const dia = new Date().getDay();
     console.log(dia);
-    const apellido = { apellido: "Galiano" }
+    const apellido = { apellido: "Galiano 🤓" }
     if (dia === 0) {
       this.ViewContainerRef.createEmbeddedView(this.TemplateRef, { apellido: apellido })
     }
   }
 }
 
-
-@Component({
-  selector: 'uno',
-  template: `<h3>componente uno</h3>`
-})
-export class UnoComponent{}
-
-@Component({
-  selector: 'dos',
-  template: `<h3>componente dos</h3>`
-})
-export class DosComponent{}
-
 @Component({
   selector: 'app-ng-template-outlet2',
-  imports: [CommonModule, MiDirectiva],
+  imports: [CommonModule, MiDirectiva, TemaDirectiva],
   providers: [],
+  styles: [`
+    .noche{
+      background-color: black;
+      color: aqua;
+      padding: 12px
+    }
+    .luz{
+      background-color: burlywood;
+      color: #000;
+      padding: 12px
+    }
+  `],
   template: `
   <ng-template #plantilla let-name="nombre">
     <p>Nombre {{name}}</p>
   </ng-template>
 
-  // @ Uso de Directiva
+  <!--Uso de Directiva-->
   <ng-template myDirectiva let-apellido="apellido.apellido">
     <h1>hola {{apellido}}</h1>
   </ng-template>
@@ -55,13 +84,26 @@ export class DosComponent{}
   <hr>
 
   <h1>Rendering components</h1>
-  <ng-container [ngComponentOutlet]="mostar()"></ng-container>
+  <ng-container [ngComponentOutlet]="mostrar()"></ng-container>
 
+  <hr>
+  <h1>Rendering template fragments</h1>
+  <div [tema]='"noche"'>
+    <ng-container [ngTemplateOutlet]="mostrarFracmento()"></ng-container>
+    <ng-template #tuno>Plantilla uno</ng-template>
+    <ng-template #tdos>Plantilla dos</ng-template>
+  </div>
 
   `
 })
 export class NgTemplateOutlet2Component {
+  is = input(true);
 
-  mostar = computed(()=> (false) ? UnoComponent : DosComponent)
+  mostrar = computed(()=> this.is() ? UnoComponent : DosComponent)
+
+  // Rendering template fragments
+  tuno = viewChild("tuno", {read: TemplateRef});
+  tdos = viewChild("tdos", {read: TemplateRef});
+  mostrarFracmento = computed(()=> this.is() ? this.tuno() : this.tdos() )
 
 }

@@ -11,6 +11,8 @@ import { NgContent2Component } from './ng-content2/ng-content2.component';
 import { NgTemplate2Component } from './ng-template/ng-template.component';
 import { NgTemplateOutletComponent } from './NgTemplateOutlet/NgTemplateOutlet.component';
 import { ViewContainerRefComponent } from './ViewContainerRef/ViewContainerRef.component';
+import { CreateEmbeddedViewComponent } from './createEmbeddedView/createEmbeddedView.component';
+import { NgTemplateOutlet2Component } from './  ngTemplateOutlet2/  ngTemplateOutlet2.component';
 
 export const routes: Routes = [
   {
@@ -50,8 +52,16 @@ export const routes: Routes = [
     component: NgTemplateOutletComponent
   },
   {
-    path: "",
+    path: "ViewContainerRef",
     component: ViewContainerRefComponent
+  },
+  {
+    path: "CreateEmbeddedView",
+    component: CreateEmbeddedViewComponent
+  },
+  {
+    path: "",
+    component: NgTemplateOutlet2Component
   },
   {
     path: "UsuariosComponent",

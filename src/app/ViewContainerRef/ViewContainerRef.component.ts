@@ -16,7 +16,9 @@ import { CommonModule, NgComponentOutlet } from "@angular/common"
 })
 export class hijoComponen implements AfterViewInit {
 
-  @ViewChild('conteedor', { read: ViewContainerRef }) viewContainer!: ViewContainerRef;
+  // @ViewChild('conteedor', { read: ViewContainerRef }) viewContainer!: ViewContainerRef;
+  viewContainer = inject(ViewContainerRef);
+
   // fracmento = input();
   @Input() template!: TemplateRef<any>;
   // nombre = input<string>();

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, Directive, effect, ElementRef, inject, input, OnInit, TemplateRef, viewChild, ViewChildren, ViewContainerRef } from '@angular/core';
+import { Component, computed, Directive, effect, ElementRef, inject, input, OnInit, TemplateRef, viewChild, ViewChildren, ViewContainerRef, Injector } from '@angular/core';
+import { CreateComponentComponent } from "../createComponent/createComponent.component";
 
 // TODO Falta por hacer
 
@@ -21,7 +22,7 @@ export class TemaDirectiva {
 
 @Component({
   selector: 'Tuno',
-  template: `<h3>componente uno</h3>`
+  template: `<h3>componente uno 🤑</h3>`
 })
 export class UnoComponent{}
 
@@ -44,7 +45,7 @@ export class MiDirectiva implements OnInit {
     const dia = new Date().getDay();
     console.log(dia);
     const apellido = { apellido: "Galiano 🤓" }
-    if (dia === 0) {
+    if (dia === 2) {
       this.ViewContainerRef.createEmbeddedView(this.TemplateRef, { apellido: apellido })
     }
   }
@@ -52,7 +53,7 @@ export class MiDirectiva implements OnInit {
 
 @Component({
   selector: 'app-ng-template-outlet2',
-  imports: [CommonModule, MiDirectiva, TemaDirectiva],
+  imports: [CommonModule, MiDirectiva, TemaDirectiva, CreateComponentComponent],
   providers: [],
   styles: [`
     .noche{
@@ -93,6 +94,28 @@ export class MiDirectiva implements OnInit {
     <ng-template #tuno>Plantilla uno</ng-template>
     <ng-template #tdos>Plantilla dos</ng-template>
   </div>
+  <br>
+  @defer{
+    <app-create-component />
+  }@placeholder(minimum 2000ms) {
+    <p>Se esta cargando...</p>
+  }
+  <br>
+  @defer{
+    <app-create-component />
+  }@loading(after 1000ms; minimum 1s) {
+    <p>--🤯--</p>
+  } @error {
+    <p>Failed to load large component.</p>
+  }
+
+  @defer (on interaction) {
+      <p>XXXXX</p>
+  }@placeholder{
+    <div style="border:solid; margin:12px">
+      <p>espera</p>
+    </div>
+  }
 
   `
 })
